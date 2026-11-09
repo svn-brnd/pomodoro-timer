@@ -1,0 +1,126 @@
+<!doctype html>
+<!-- AI: erstellt von GPT-6 Luna (bifrost/azure/gpt-6-luna) | 2026-11-05 -->
+<html lang="de">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#111c27">
+	<title>Pomodoro — Fokuszeit</title>
+	<link rel="stylesheet" href="/styles.css">
+	<script type="module" src="/app.mjs"></script>
+</head>
+<body>
+	<div class="app-shell">
+		<header class="topbar">
+			<a class="brand" href="/" aria-label="Pomodoro Startseite">
+				<span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+				<span class="brand-copy"><strong>stillpoint</strong><small>FOCUS, AT YOUR PACE</small></span>
+			</a>
+			<div class="local-badge"><span class="status-dot" aria-hidden="true"></span> Nur auf diesem Gerät</div>
+		</header>
+
+		<main>
+			<section class="intro" aria-labelledby="page-heading">
+				<p class="eyebrow">EIN MOMENT NACH DEM ANDEREN</p>
+				<h1 id="page-heading">Finde deinen <span>Flow.</span></h1>
+				<p class="intro-copy">Ein klarer Kopf beginnt mit einem kleinen, bewussten Schritt.</p>
+			</section>
+
+			<div class="workspace">
+				<section class="focus-card panel" aria-labelledby="phase-label">
+					<div class="focus-topline">
+						<div>
+							<p class="eyebrow">DEIN JETZT</p>
+							<h2 id="phase-label">Fokuszeit</h2>
+						</div>
+						<span class="phase-badge" id="phase-badge">ARBEIT</span>
+					</div>
+
+					<div class="timer-area">
+						<div class="timer-ring" id="timer-ring" style="--progress: 0%">
+							<div class="timer-face">
+								<span class="timer-value" id="timer-display" role="timer" aria-live="off">25:00</span>
+								<span class="timer-caption" id="timer-caption">Bereit zum Start</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="cycle-row">
+						<div class="cycle-dots" id="cycle-dots" aria-hidden="true">
+							<span></span><span></span><span></span><span></span>
+						</div>
+						<p><strong id="completed-count">0</strong> abgeschlossene Fokusphasen</p>
+					</div>
+
+					<div class="timer-actions">
+						<button class="button button-primary" id="start-button" type="button">Fokus starten</button>
+						<button class="button button-secondary" id="pause-button" type="button" disabled>Pause</button>
+						<button class="button button-quiet" id="reset-button" type="button" aria-label="Aktuelle Phase zurücksetzen">Zurücksetzen</button>
+					</div>
+					<p class="next-phase" id="next-phase">Danach: kurze Pause · 5 Minuten</p>
+				</section>
+
+				<aside class="side-column" aria-label="Einstellungen und Musik">
+					<section class="panel settings-card" aria-labelledby="settings-heading">
+						<div class="section-heading">
+							<div class="heading-icon" aria-hidden="true">◷</div>
+							<div><p class="eyebrow">DEIN RHYTHMUS</p><h2 id="settings-heading">Zeiten einstellen</h2></div>
+						</div>
+						<form id="settings-form" novalidate>
+							<label class="setting-field" for="work-minutes">
+								<span>Fokus</span>
+								<span class="number-control"><input id="work-minutes" name="work" type="number" min="1" max="180" step="1" value="25" inputmode="numeric"><span>Min</span></span>
+							</label>
+							<label class="setting-field" for="short-break-minutes">
+								<span>Kurze Pause</span>
+								<span class="number-control"><input id="short-break-minutes" name="shortBreak" type="number" min="1" max="180" step="1" value="5" inputmode="numeric"><span>Min</span></span>
+							</label>
+							<label class="setting-field" for="long-break-minutes">
+								<span>Lange Pause</span>
+								<span class="number-control"><input id="long-break-minutes" name="longBreak" type="number" min="1" max="180" step="1" value="15" inputmode="numeric"><span>Min</span></span>
+							</label>
+							<p class="form-message" id="settings-message" aria-live="polite"></p>
+							<button class="button button-outline" type="submit">Zeiten übernehmen</button>
+						</form>
+						<p class="settings-hint">Änderungen gelten ab der nächsten Phase.</p>
+					</section>
+
+					<section class="panel music-card" aria-labelledby="music-heading">
+						<div class="music-topline">
+							<div class="music-art" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+							<div class="music-brand"><span>SOMA FM · LIVE RADIO</span><h2 id="music-heading">Groove Salad</h2></div>
+							<span class="live-badge"><span></span> LIVE</span>
+						</div>
+						<p class="music-description" id="station-description">Sanfte elektronische Klänge für deine Fokuszeit.</p>
+						<label class="station-field" for="station-select">SomaFM-Sender
+							<select id="station-select" name="station" aria-describedby="station-list-status station-description">
+								<option value="groovesalad">Groove Salad</option>
+							</select>
+						</label>
+						<div class="station-list-row">
+							<p id="station-list-status" aria-live="polite">Senderliste wird geladen …</p>
+							<button class="retry-button" id="reload-stations-button" type="button">Liste neu laden</button>
+						</div>
+						<div class="audio-status" id="audio-status" data-state="idle" role="status" aria-live="polite">Musik startet mit deiner nächsten Fokusphase.</div>
+						<div class="volume-row">
+							<label for="volume-control">Lautstärke</label>
+							<input id="volume-control" type="range" min="0" max="1" step="0.01" value="0.35" aria-label="Musiklautstärke">
+							<output id="volume-value" for="volume-control">35%</output>
+						</div>
+						<div class="music-actions">
+							<button class="button button-secondary button-small" id="mute-button" type="button" aria-pressed="false">Musik stummschalten</button>
+							<button class="retry-button" id="retry-button" type="button" disabled>Erneut verbinden</button>
+						</div>
+						<p class="stream-note">Live-Stream benötigt Internet · nicht offline verfügbar</p>
+					</section>
+				</aside>
+			</div>
+		</main>
+
+		<footer class="footer">
+			<p id="storage-note">Dein Fortschritt bleibt lokal in diesem Browser.</p>
+			<span>Einatmen. Anfangen. Weitergehen.</span>
+		</footer>
+	</div>
+</body>
+</html>
